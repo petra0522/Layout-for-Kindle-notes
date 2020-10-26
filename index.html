@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Layout for Kindle Notebook</title>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<style type="text/css" media="print">
+    .no-print { display: none; }
+    .bg { display: none; }
+</style>
+<style>
+    html,body{    
+        margin:0;
+        padding:0;
+    }
+    #operator {
+        text-align: center;
+        list-style-position: inside;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .bg {
+        background: url(BG.jpg) no-repeat center; 
+        background-size: cover;
+        height: 500px; 
+        position: relative;
+    }
+    .button {
+       margin-top: 20px; 
+    }
+    /*
+    .button {
+        background-color: transparent;
+        color: white; 
+        border: 1px solid white;
+        border-radius: 2px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin-top: 20px;
+    }
+    
+    .button:hover {
+      background-color: lightsteelblue;
+      color: white;
+    }
+    */
+    }
+</style>
+</head>
+<body>
+    <div class="bg" > 
+    <div id="operator" class="no-print">
+            <h1>New layout for your Kindle notebook</h1>  
+            <h3>Instruction</h3>
+            <ol>
+                <li>In the Kindle app, export your Notebook to Email and then you will get your notebook in HTML format.</li>
+                <li>Upload the HTML file. You will see the contents of your notebook.</li>
+                <li>Upload an image for your notebook if you wish, otherwise a default image will be added.</li>
+                <li>Press the STYLING button to get your notebook with a new layout. A print window will occur and you can print the notebook with your customized settings.</li>
+            </ol>
+            <!--
+            <div>
+            <label for="upload" class="btn">Select notebook</label>
+            <input id="upload" style="visibility:hidden;" type="file">
+            <label for="picField" class="btn">Select image</label>
+            <input id="picField" style="visibility:hidden;" type="file">
+            <img id="outImage" style="height: 80px">  
+            </div>
+            -->
+            
+            <div>
+            Notebook: <input type="file" id="upload" accept=".html">
+            Image: <input type="file" id="picField" accept="image/*">
+            <button id="styling" class="button">STYLING</button>
+            </div>
+        
+            
+        <!--
+            <button id="print" onclick="window.print()">Print Notebook</button>
+        -->
+              
+    </div>
+    </div>
+    <img id="outImage" class="no-print" style="height: 80px; display: none" > 
+    <h3 id="content" class="no-print" style="text-align: center"></h3>
+    
+    <div id="loaded">  
+    </div>
+    
+    <script>
+    var content;
+    document.getElementById('upload').addEventListener('change', readFileAsString)
+    function readFileAsString() {
+        console.log('file is selected');
+        var files = this.files;
+        if (files.length === 0) {
+            console.log('No file is selected');
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            //console.log('File content:', event.target.result);
+            content = event.target.result;
+            var parser = new DOMParser();
+            var htmlDoc = parser.parseFromString(content, 'text/html');
+            var body = htmlDoc.getElementsByClassName("bodyContainer");
+            var $log = $( "#loaded" );
+            // Append the parsed HTML
+            $log.append( body );
+            $('#content').text('Content of the notebook:');
+        };
+        reader.readAsText(files[0]);
+    }
+        
+    document.getElementById('picField').onchange = function (evt) {
+        var tgt = evt.target || window.event.srcElement,
+            files = tgt.files;
+
+        // FileReader support
+        if (FileReader && files && files.length) {
+            var fr = new FileReader();
+            fr.onload = function () {
+                document.getElementById("outImage").src = fr.result;
+            }
+            fr.readAsDataURL(files[0]);
+        }
+
+        // Not supported
+        else {
+            // fallback -- perhaps submit the input to an iframe and temporarily store
+            // them on the server until the user's session ends.
+        }
+    }
+    </script>
+    <script>
+    document.getElementById("styling").addEventListener("click", stylingNotes);
+    function stylingNotes() {
+        $('#styling').attr("disabled", true);
+        //1. Remove the text before "-" in each noteHeading
+        //2. Add corresponding class name such as "highlight_orange"
+        //3. Add <hr> after each noteText
+        $(".notebookFor").remove();
+        // Wrap bookTitle and author 
+        $(".bookTitle").next().addBack().wrapAll('<div class="header" />');
+        $( '<div class="notebookGraphic"><img id="nootBookImg"></div>' ).insertBefore( $( ".header" ) );
+        var imgSrc = $("#outImage").attr('src');
+        if (imgSrc) {
+            $('#nootBookImg').attr("src",imgSrc);
+        } 
+        else {
+            $('#nootBookImg').attr("src","alt.jpg");
+        }
+        $(".notebookGraphic").next().addBack().wrapAll('<div class="container" />');
+        var noteHeadings = document.getElementsByClassName("noteHeading");
+        var noteTexts = document.getElementsByClassName("noteText");
+        for (var i = 0; i < noteHeadings.length; i++){
+            heading = noteHeadings[i];
+            text = noteTexts[i];
+            var s = heading.innerHTML;
+            var hightlightColor = s.split('"')[1];
+            heading.innerHTML = s.slice(s.indexOf('-'));
+            text.classList.add(hightlightColor);
+            text.after(document.createElement("hr")); 
+        } 
+        $('head').append('<link rel="stylesheet" type="text/css" href="style.css">');
+        
+        setTimeout(function() {
+            window.print();
+        },200);
+        
+    }
+    function hideOperator() {
+        $('#operator').hide("fast");
+    }
+    </script>
+</body>
+</html>
