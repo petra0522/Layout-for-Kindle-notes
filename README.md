@@ -4,8 +4,8 @@ This is a web application for customizing the layout of your Kindle notebook exp
 
 Here is an example:
 
-|                       Original Layout                        |                          New Layout                          |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <img src="/Users/petra/Desktop/Original_layout.png" style="zoom:60%;" /> | <img src="/Users/petra/Desktop/New_layout.png" alt="New_layout" style="zoom:60%; " /> |
-| <img src="/Users/petra/Desktop/OL2.png" style="zoom:60%;" /> | <img src="/Users/petra/Desktop/nl2.png" style="zoom:60%;" /> |
+|                    Original Layout                     |                          New Layout                          |
+| :----------------------------------------------------: | :----------------------------------------------------------: |
+| <img src="example_images/OL1.png" style="zoom:60%;" /> | <img src="example_images/NL1.png" alt="New_layout" style="zoom:60%; " /> |
+| <img src="example_images/OL2.png" style="zoom:60%;" /> |    <img src="example_images/NL2.png" style="zoom:60%;" />    |
 
