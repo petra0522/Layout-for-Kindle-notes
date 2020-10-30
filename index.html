@@ -66,7 +66,8 @@
                 <li>In your Kindle app, export your Notebook to Email and then you will get your notebook in HTML format.</li>
                 <li>Upload the HTML file. You will see the contents of your notebook.</li>
                 <li>Upload an image for your notebook if you wish, otherwise a default image will be added.</li>
-                <li>Click the STYLING button to get your notebook with a new layout. A print window will occur and you can print the notebook with your customized settings.</li>
+                <li>Click the STYLING button to get your notebook with a new layout. A print window should occur automatically, otherwise you could also print the page manually.
+                    You can customize the print settings such as scale and margins for printing the notebook.</li>
             </ol>
             <!--
             <div>
@@ -169,7 +170,7 @@
             text = noteTexts[i];
             var s = heading.innerHTML;
             var hightlightColor = s.split('"')[1];
-            heading.innerHTML = s.slice(s.indexOf('-'));
+            heading.innerHTML = s.slice(s.lastIndexOf('-')); 
             text.classList.add(hightlightColor);
             text.after(document.createElement("hr")); 
         } 
