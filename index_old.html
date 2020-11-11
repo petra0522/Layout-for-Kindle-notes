@@ -1,62 +1,105 @@
 <!DOCTYPE html>
 <html>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Layout for Kindle Notebook</title>
+<head>
+<meta charset="utf-8">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<title>Layout for Kindle Notebook</title>
 <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
 <style type="text/css" media="print">
     .no-print { display: none; }
+    .bg { display: none; }
 </style>
 <style>
-   #instruction {
-        color: white;
-        font-family: Montserrat, sans-serif;
+    html,body{    
+        margin:0;
+        padding:0;
     }
+    #operator {
+        text-align: center;
+        list-style-position: inside;
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    .bg {
+        background: url(BG.jpg) no-repeat center; 
+        background-size: cover;
+        height: 500px; 
+        position: relative;
+    }
+    .button {
+       margin-top: 20px; 
+    }
+    /*
+    .button {
+        background-color: transparent;
+        color: white; 
+        border: 1px solid white;
+        border-radius: 2px;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        margin-top: 20px;
+    }
+    
+    .button:hover {
+      background-color: lightsteelblue;
+      color: white;
+    }
+    */
     li {
         margin: 10px;
-        list-style-position: inside;
+    }
     }
 </style>
+</head>
 <body>
-
-
-<!-- Band Description -->
-    <div class="no-print" id="operator">
-    <div id="instruction" style="background-image: url(BG.jpg); padding-top: 60px; padding-bottom: 30px">
-    <div class="w3-container w3-center w3-content" style="max-width:1000px">
-      <h1><b>New layout for your Kindle notebook</b></h1>  
-                <h4>Instruction</h4>
-                <ol>
-                    <li>In your Kindle app, export your Notebook to Email and then you will get your notebook in HTML format.</li>
-                    <li>Upload the HTML file. You will see the contents of your notebook.</li>
-                    <li>Upload an image for your notebook if you wish, otherwise a default image will be added.</li>
-                    <li>Click the STYLING button to get your notebook with a new layout. A print window should occur automatically, otherwise you could also print the page manually.
-                        You can customize the print settings such as scale and margins for printing the notebook.</li>
-                </ol>           
+    <div class="bg" > 
+    <div id="operator" class="no-print">
+            <h1>New layout for your Kindle notebook</h1>  
+            <h3>Instruction</h3>
+            <ol>
+                <li>In your Kindle app, export your Notebook to Email and then you will get your notebook in HTML format.</li>
+                <li>Upload the HTML file. You will see the contents of your notebook.</li>
+                <li>Upload an image for your notebook if you wish, otherwise a default image will be added.</li>
+                <li>Click the STYLING button to get your notebook with a new layout. A print window should occur automatically, otherwise you could also print the page manually.
+                    You can customize the print settings such as scale and margins for printing the notebook.</li>
+            </ol>
+            <!--
+            <div>
+            <label for="upload" class="btn">Select notebook</label>
+            <input id="upload" style="visibility:hidden;" type="file">
+            <label for="picField" class="btn">Select image</label>
+            <input id="picField" style="visibility:hidden;" type="file">
+            <img id="outImage" style="height: 80px">  
+            </div>
+            -->
+            
+            <div>
+            Notebook: <input type="file" id="upload" accept=".html">
+            Image: <input type="file" id="picField" accept="image/*">
+            <button id="styling" class="button">STYLING</button>
+            </div>
+        
+            
+        <!--
+            <button id="print" onclick="window.print()">Print Notebook</button>
+        -->
+              
     </div>
-    </div>
-    <div class="W3-row-padding w3-center">
-            <div class="w3-third">
-                <label for="upload" class="w3-button w3-block" style="background-color: #ffe380; color: #7d6200">SELECT NOTEBOOK</label>
-                <input type="file" id="upload" accept=".html" style="visibility:hidden;">
-            </div>
-            <div class="w3-third">
-                <label for="picField" class="w3-button w3-block" style="background-color: #fff1bf; color: #7d6200">SELECT IMAGE</label>
-                <input type="file" id="picField" accept="image/*" style="visibility:hidden;">
-            </div>
-            <div class="w3-third">
-                <button id="styling" class="w3-button w3-block" style="background-color: #b37400; color: white">STYLING</button>
-            </div>
-        </div>
     </div>
     <img id="outImage" class="no-print" style="height: 80px; display: none" > 
-    <div class="w3-container w3-center"><h3 id="content" class="no-print" ></h3></div>   
+    <h3 id="content" class="no-print" style="text-align: center"></h3>
+    
     <div id="loaded">  
     </div>
-<script>
+    
+    <script>
     var content;
     document.getElementById('upload').addEventListener('change', readFileAsString)
     function readFileAsString() {
